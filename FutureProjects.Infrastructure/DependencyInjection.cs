@@ -1,5 +1,4 @@
 ﻿using FutureProjects.Application.Abstractions;
-using FutureProjects.Domain.Entities.Models;
 using FutureProjects.Infrastructure.BaseRepositories;
 using FutureProjects.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;

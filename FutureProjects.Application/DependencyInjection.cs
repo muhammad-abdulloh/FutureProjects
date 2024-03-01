@@ -1,11 +1,7 @@
 ﻿using FutureProjects.Application.Abstractions.IServices;
+using FutureProjects.Application.Services.AuthServices;
 using FutureProjects.Application.Services.UserServices;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FutureProjects.Application
 {
@@ -14,6 +10,7 @@ namespace FutureProjects.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }

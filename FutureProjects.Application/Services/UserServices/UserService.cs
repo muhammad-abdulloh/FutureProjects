@@ -3,12 +3,7 @@ using FutureProjects.Application.Abstractions.IServices;
 using FutureProjects.Domain.Entities.DTOs;
 using FutureProjects.Domain.Entities.Models;
 using FutureProjects.Domain.Entities.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FutureProjects.Application.Services.UserServices
 {
@@ -29,6 +24,7 @@ namespace FutureProjects.Application.Services.UserServices
                 Email = userDTO.Email,
                 Login = userDTO.Login,
                 Password = userDTO.Password,
+                Role = userDTO.Role,
             };
             var result = await _userRepository.Create(user);
 
@@ -50,6 +46,7 @@ namespace FutureProjects.Application.Services.UserServices
             {
                 Name = model.Name,
                 Email = model.Email,
+                Role = model.Role,
             });
 
             return result;
@@ -64,7 +61,7 @@ namespace FutureProjects.Application.Services.UserServices
 
         public async Task<User> GetByEmail(string email)
         {
-            var result = await _userRepository.GetByAny(x => x.Email == email); 
+            var result = await _userRepository.GetByAny(x => x.Email == email);
             return result;
         }
 
@@ -76,13 +73,13 @@ namespace FutureProjects.Application.Services.UserServices
 
         public async Task<User> GetByLogin(string login)
         {
-            var reult = await _userRepository.GetByAny(y => y.Login ==  login);
+            var reult = await _userRepository.GetByAny(y => y.Login == login);
             return reult;
         }
 
         public async Task<User> GetByName(string name)
         {
-            var result = await  _userRepository.GetByAny(d => d.Name == name);
+            var result = await _userRepository.GetByAny(d => d.Name == name);
             return result;
         }
 
@@ -98,13 +95,14 @@ namespace FutureProjects.Application.Services.UserServices
                     Email = userDTO.Email,
                     Login = userDTO.Login,
                     Password = userDTO.Password,
+                    Role = userDTO.Role,
                 };
                 var result = await _userRepository.Update(user);
 
                 return result;
             }
             return new User();
-            
+
         }
     }
 }

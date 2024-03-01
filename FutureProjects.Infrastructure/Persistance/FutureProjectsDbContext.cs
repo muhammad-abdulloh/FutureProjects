@@ -1,11 +1,8 @@
-﻿using FutureProjects.Domain.Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace FutureProjects.Infrastructure.Persistance
 {
-    
+
     public class FutureProjectsDbContext : DbContext
     {
         public FutureProjectsDbContext(DbContextOptions<FutureProjectsDbContext> options)

@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace FutureProjects.Domain.Entities.DTOs
+﻿namespace FutureProjects.Domain.Entities.DTOs
 {
     public class UserDTO
     {
@@ -8,5 +6,6 @@ namespace FutureProjects.Domain.Entities.DTOs
         public string? Email { get; set; }
         public string Password { get; set; }
         public string Login { get; set; }
+        public string Role { get; set; }
     }
 }
