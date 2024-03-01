@@ -1,4 +1,5 @@
 
+using FutureProjects.Application;
 using FutureProjects.Infrastructure;
 
 namespace FutureProjects.API
@@ -14,6 +15,7 @@ namespace FutureProjects.API
             builder.Services.AddControllers();
 
             builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApplication();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

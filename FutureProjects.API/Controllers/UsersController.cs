@@ -1,5 +1,8 @@
 ﻿using FutureProjects.Application.Abstractions;
+using FutureProjects.Application.Abstractions.IServices;
+using FutureProjects.Domain.Entities.DTOs;
 using FutureProjects.Domain.Entities.Models;
+using FutureProjects.Domain.Entities.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +12,25 @@ namespace FutureProjects.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers()
         {
-            var result = await _userRepository.GetAll();
+            var result = await _userService.GetAll();
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<User>>> CreateUser(UserDTO model)
+        {
+            var result = await _userService.Create(model);
 
             return Ok(result);
         }

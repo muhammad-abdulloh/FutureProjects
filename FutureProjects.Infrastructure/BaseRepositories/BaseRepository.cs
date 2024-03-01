@@ -15,10 +15,10 @@ namespace FutureProjects.Infrastructure.BaseRepositories
         private readonly FutureProjectsDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public BaseRepository(FutureProjectsDbContext context, DbSet<T> dbSet)
+        public BaseRepository(FutureProjectsDbContext context)
         {
             _context = context;
-            _dbSet = dbSet;
+            _dbSet = context.Set<T>();
         }
 
         public async Task<T> Create(T entity)

@@ -1,4 +1,5 @@
 ﻿using FutureProjects.Application.Abstractions;
+using FutureProjects.Domain.Entities.Models;
 using FutureProjects.Infrastructure.BaseRepositories;
 using FutureProjects.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace FutureProjects.Infrastructure
 
 
             services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
             return services;
         }
     }

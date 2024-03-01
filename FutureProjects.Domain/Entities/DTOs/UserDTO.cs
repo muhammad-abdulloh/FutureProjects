@@ -1,4 +1,6 @@
-﻿namespace FutureProjects.Domain.Entities.DTOs
+﻿using System.Text.Json.Serialization;
+
+namespace FutureProjects.Domain.Entities.DTOs
 {
     public class UserDTO
     {
