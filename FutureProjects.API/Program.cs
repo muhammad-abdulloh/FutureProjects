@@ -1,26 +1,51 @@
 
 using FutureProjects.Application;
+using FutureProjects.Application.Mappers;
 using FutureProjects.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Serilog;
 
 namespace FutureProjects.API
 {
     public class Program
     {
+
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Logging.ClearProviders();
+
+            //using var log = new LoggerConfiguration()
+            //    .WriteTo.Console()
+            //    .WriteTo.File("log.txt")
+            //    .CreateLogger();
+
+            //log.Information("Hello, Serilog!");
+
+            var paths = builder.Configuration["Serilog:LogPath"];
+
+            builder.Host.UseSerilog((context, configuration) =>
+            {
+                configuration.ReadFrom.Configuration(context.Configuration);
+
+                configuration.MinimumLevel.Information()
+                    .Enrich.WithProperty("ApplicationContext", "Ocelot.APIGateway")
+                    .Enrich.FromLogContext()
+                    .WriteTo.File(builder.Configuration["Serilog:LogPath"])
+                    .WriteTo.Console()
+                    .ReadFrom.Configuration(context.Configuration);
+            });
 
             builder.Services.AddControllers();
 
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
-
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -67,14 +92,23 @@ namespace FutureProjects.API
                                        }
                                    };
                                });
-            var app = builder.Build();
+
+
+
+
+
+            var app = builder.Build();  
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+
             }
+            app.UseStaticFiles();
+            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
 

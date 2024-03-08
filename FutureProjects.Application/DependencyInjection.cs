@@ -1,7 +1,10 @@
 ﻿using FutureProjects.Application.Abstractions.IServices;
+using FutureProjects.Application.Mappers;
 using FutureProjects.Application.Services.AuthServices;
 using FutureProjects.Application.Services.UserServices;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
+
 
 namespace FutureProjects.Application
 {
@@ -12,6 +15,7 @@ namespace FutureProjects.Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
 
+            services.AddAutoMapper(typeof(AutoMapperProfile));
             return services;
         }
     }

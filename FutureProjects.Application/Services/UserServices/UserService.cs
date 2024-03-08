@@ -1,31 +1,39 @@
-﻿using FutureProjects.Application.Abstractions;
+﻿using AutoMapper;
+using FutureProjects.Application.Abstractions;
 using FutureProjects.Application.Abstractions.IServices;
 using FutureProjects.Domain.Entities.DTOs;
 using FutureProjects.Domain.Entities.Models;
 using FutureProjects.Domain.Entities.ViewModels;
+using System.Data;
 using System.Linq.Expressions;
+using System.Xml.Linq;
 
 namespace FutureProjects.Application.Services.UserServices
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public async Task<User> Create(UserDTO userDTO)
         {
-            var user = new User()
-            {
-                Name = userDTO.Name,
-                Email = userDTO.Email,
-                Login = userDTO.Login,
-                Password = userDTO.Password,
-                Role = userDTO.Role,
-            };
+            //var user = new User()
+            //{
+            //    Name = userDTO.Name,
+            //    Email = userDTO.Email,
+            //    Login = userDTO.Login,
+            //    Password = userDTO.Password,
+            //    Role = userDTO.Role,
+            //};
+
+            var user = _mapper.Map<User>(userDTO);
+
             var result = await _userRepository.Create(user);
 
             return result;
@@ -89,15 +97,18 @@ namespace FutureProjects.Application.Services.UserServices
 
             if (res != null)
             {
-                var user = new User()
-                {
-                    Name = userDTO.Name,
-                    Email = userDTO.Email,
-                    Login = userDTO.Login,
-                    Password = userDTO.Password,
-                    Role = userDTO.Role,
-                };
-                var result = await _userRepository.Update(user);
+
+                res.Name = userDTO.Name;
+                res.Email = userDTO.Email;
+                res.Login = userDTO.Login;
+                res.Password = userDTO.Password;
+                res.Role = userDTO.Role;
+
+                // auto mapper
+
+                //var user = _mapper.Map<User>(userDTO);
+
+                var result = await _userRepository.Update(res);
 
                 return result;
             }

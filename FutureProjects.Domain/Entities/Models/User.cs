@@ -1,4 +1,6 @@
-﻿namespace FutureProjects.Domain.Entities.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FutureProjects.Domain.Entities.Models
 {
     public class User
     {

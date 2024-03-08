@@ -4,27 +4,42 @@ using FutureProjects.Domain.Entities.Models;
 using FutureProjects.Domain.Entities.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace FutureProjects.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, ILogger<UsersController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers()
-        {
-            var result = await _userService.GetAll();
+            {
+            try
+            {
+               
+                _logger.LogInformation("Test Logs");
 
-            return Ok(result);
+
+                var result = await _userService.GetAll();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
         }
 
         [HttpPost]
@@ -34,5 +49,14 @@ namespace FutureProjects.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<ActionResult<User>> UpdateUser(int id, UserDTO model)
+        {
+            var result = await _userService.Update(id, model);
+
+            return Ok(result);
+        }
+
     }
 }
