@@ -4,6 +4,8 @@ using FutureProjects.Application.Abstractions.IServices;
 using FutureProjects.Application.Mappers;
 using FutureProjects.Domain.Entities.DTOs;
 using FutureProjects.Domain.Entities.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace FutureProjects.Application.Tests.Services.UserServices
@@ -11,6 +13,10 @@ namespace FutureProjects.Application.Tests.Services.UserServices
     public class UserServiceTests
     {
         private readonly Mock<IUserService> _userservice = new Mock<IUserService>();
+        MapperConfiguration? mockMapepr = new MapperConfiguration(conf =>
+        {
+            conf.AddProfile(new AutoMapperProfile());
+        });
 
         public static IEnumerable<object[]> GetUserFromDataGenerator()
         {
@@ -155,18 +161,13 @@ namespace FutureProjects.Application.Tests.Services.UserServices
             };
         }
 
-
+        // Create User Test
         [Theory]
         [MemberData(nameof(GetUserFromDataGenerator), MemberType = typeof(UserServiceTests))]
         public async void Create_User_Test(UserDTO inputUser, User expextedUser)
         {
+             var myMapper = mockMapepr.CreateMapper();
 
-            var mockMapepr  = new MapperConfiguration(conf =>
-            {
-                conf.AddProfile(new AutoMapperProfile());
-            });
-
-            var myMapper = mockMapepr.CreateMapper(); 
 
             var result = myMapper.Map<User>(inputUser);
             // logic
@@ -195,6 +196,70 @@ namespace FutureProjects.Application.Tests.Services.UserServices
 
             return false;
         }
+
+        
+        // Get User Test
+        [Fact]
+        public async Task Get_User_ById_TestAsync()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Id = 6,
+                Name = "Test Product 34",
+                Email = "komilov@gmail.com",
+                Password = "123",
+                Login = "tes123",
+                Role = "Admin"
+            };
+
+            _userservice.Setup(s => s.GetById(5)).ReturnsAsync(user);
+
+            var controller = new UsersController(_userservice.Object);
+
+            // Act
+            var result = await controller.UserGetById(6);
+
+            //// Assert
+            //var okResult = Assert.IsType<OkObjectResult>(result);
+
+            //var returnUser = Assert.IsType<User>(okResult.Value);
+
+            Assert.True(CompareModels(result, user));
+        }
+
+        // Update
+        [Fact]
+        public async void Update_User_Test()
+        {
+            var _mapper = mockMapepr.CreateMapper();
+            // Arrange
+            int Id = 5;
+            var user = new UserDTO()
+            {
+                Name = "Kamoliddin",
+                Email = "kamol33@gmail.com",
+                Password = "123",
+                Login = "123ww",
+                Role = "Teacher"
+            };
+
+            var result = _mapper.Map<User>(user);
+
+            _userservice.Setup(x => x.Update(Id, user))
+                .ReturnsAsync(result);
+
+            var controller = new UsersController(_userservice.Object);
+
+            var natija = await controller.UpdateUser(Id, user);
+
+            
+
+            Assert.True(CompareModels(natija, result));
+           
+
+        }
+
 
 
     }

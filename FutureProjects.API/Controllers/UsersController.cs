@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FutureProjects.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     //[Authorize]
     public class UsersController : ControllerBase
@@ -49,11 +49,19 @@ namespace FutureProjects.API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<User>> UpdateUser(int id, UserDTO model)
+        public async Task<User> UpdateUser(int id, UserDTO model)
         {
             var result = await _userService.Update(id, model);
 
-            return Ok(result);
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<User> UserGetById(int id)
+        {
+            var result = await _userService.GetById(id);
+
+            return result;
         }
 
     }
