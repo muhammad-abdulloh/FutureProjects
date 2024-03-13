@@ -2,9 +2,7 @@
 using FutureProjects.Domain.Entities.DTOs;
 using FutureProjects.Domain.Entities.Models;
 using FutureProjects.Domain.Entities.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 namespace FutureProjects.API.Controllers
 {
@@ -16,18 +14,18 @@ namespace FutureProjects.API.Controllers
         private readonly IUserService _userService;
         private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, ILogger<UsersController> logger)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
-            _logger = logger;
+            //_logger = logger;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> GetAllUsers()
-            {
+        {
             try
             {
-               
+
                 _logger.LogInformation("Test Logs");
 
 
@@ -43,11 +41,11 @@ namespace FutureProjects.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<User>>> CreateUser(UserDTO model)
+        public async Task<User> CreateUser(UserDTO model)
         {
             var result = await _userService.Create(model);
 
-            return Ok(result);
+            return result;
         }
 
         [HttpPut]

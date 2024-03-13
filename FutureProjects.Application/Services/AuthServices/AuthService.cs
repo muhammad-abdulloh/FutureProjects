@@ -1,6 +1,5 @@
 ﻿using FutureProjects.Application.Abstractions.IServices;
 using FutureProjects.Domain.Entities.DTOs;
-using FutureProjects.Domain.Entities.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;

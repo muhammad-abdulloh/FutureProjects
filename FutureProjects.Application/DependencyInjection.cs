@@ -3,7 +3,6 @@ using FutureProjects.Application.Mappers;
 using FutureProjects.Application.Services.AuthServices;
 using FutureProjects.Application.Services.UserServices;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
 
 
 namespace FutureProjects.Application

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FutureProjects.Domain.Entities.Models
+﻿namespace FutureProjects.Domain.Entities.Models
 {
     public class User
     {

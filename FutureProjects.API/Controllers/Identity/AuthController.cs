@@ -1,6 +1,5 @@
 ﻿using FutureProjects.Application.Abstractions.IServices;
 using FutureProjects.Domain.Entities.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FutureProjects.API.Controllers.Identity

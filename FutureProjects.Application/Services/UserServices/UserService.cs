@@ -6,7 +6,6 @@ using FutureProjects.Domain.Entities.Models;
 using FutureProjects.Domain.Entities.ViewModels;
 using System.Data;
 using System.Linq.Expressions;
-using System.Xml.Linq;
 
 namespace FutureProjects.Application.Services.UserServices
 {
