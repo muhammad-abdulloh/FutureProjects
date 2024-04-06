@@ -15,7 +15,23 @@ namespace FutureProjects.API
 
         public static void Main(string[] args)
         {
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
             var builder = WebApplication.CreateBuilder(args);
+
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.AllowAnyHeader()
+                                            .WithOrigins("https://localhost:4200",
+                                            "http://localhost:4200")
+                                            .WithMethods("POST", "DELETE");
+                                  });
+            });
+
 
             // Add services to the container.
             builder.Logging.ClearProviders();
@@ -110,6 +126,8 @@ namespace FutureProjects.API
             app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthentication();
 

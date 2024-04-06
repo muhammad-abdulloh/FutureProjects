@@ -14,10 +14,10 @@ namespace FutureProjects.API.Controllers
         private readonly IUserService _userService;
         private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, ILogger<UsersController> logger)
         {
             _userService = userService;
-            //_logger = logger;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -64,5 +64,20 @@ namespace FutureProjects.API.Controllers
             return result;
         }
 
+        [HttpDelete]
+        public async Task<bool> DeleteUserById(int id)
+        {
+            var result = await _userService.Delete(x => x.Id == id);
+
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<User> FindByName(string name)
+        {
+            var result = await _userService.GetByName(name);
+
+            return result;
+        }
     }
 }
